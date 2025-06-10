@@ -1,0 +1,14 @@
+# onboarding_baglan_adaskhan-js:
+#   filter: rjsmin
+#   output: ckanext-onboarding_baglan_adaskhan/%(version)s-onboarding_baglan_adaskhan.js
+#   contents:
+#     - js/onboarding_baglan_adaskhan.js
+#   extra:
+#     preload:
+#       - base/main
+
+# onboarding_baglan_adaskhan-css:
+#   filter: cssrewrite
+#   output: ckanext-onboarding_baglan_adaskhan/%(version)s-onboarding_baglan_adaskhan.css
+#   contents:
+#     - css/onboarding_baglan_adaskhan.css
