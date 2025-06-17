@@ -1,6 +1,9 @@
+import logging
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckanext.onboarding_baglan_adaskhan.views.home import home
 
+log = logging.getLogger(__name__)
 
 # import ckanext.onboarding_baglan_adaskhan.cli as cli
 # import ckanext.onboarding_baglan_adaskhan.helpers as helpers
@@ -15,7 +18,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin):
     
     # plugins.implements(plugins.IAuthFunctions)
     # plugins.implements(plugins.IActions)
-    # plugins.implements(plugins.IBlueprint)
+    plugins.implements(plugins.IBlueprint)
     # plugins.implements(plugins.IClick)
     # plugins.implements(plugins.ITemplateHelpers)
     # plugins.implements(plugins.IValidators)
@@ -27,6 +30,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "onboarding_baglan_adaskhan")
+        log.debug("Hello World")
 
     
     # IAuthFunctions
@@ -41,8 +45,8 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
 
-    # def get_blueprint(self):
-    #     return views.get_blueprints()
+    def get_blueprint(self):
+        return [home]
 
     # IClick
 
