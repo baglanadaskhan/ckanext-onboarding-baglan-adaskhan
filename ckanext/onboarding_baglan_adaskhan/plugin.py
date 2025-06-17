@@ -4,6 +4,7 @@ import ckan.plugins.toolkit as toolkit
 from ckanext.onboarding_baglan_adaskhan.views.home import home
 from ckanext.onboarding_baglan_adaskhan.views.admin import admin
 from ckanext.onboarding_baglan_adaskhan.views.user import user
+from ckanext.onboarding_baglan_adaskhan.lib.helpers import get_helpers
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +23,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin):
     # plugins.implements(plugins.IActions)
     plugins.implements(plugins.IBlueprint)
     # plugins.implements(plugins.IClick)
-    # plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.ITemplateHelpers)
     # plugins.implements(plugins.IValidators)
     
 
@@ -57,8 +58,8 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin):
 
     # ITemplateHelpers
 
-    # def get_helpers(self):
-    #     return helpers.get_helpers()
+    def get_helpers(self):
+        return get_helpers()
 
     # IValidators
 

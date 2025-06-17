@@ -1,0 +1,11 @@
+{% ckan_extends %} 
+
+{% block user_info %} 
+    {{ super() }}
+    <div class="info">
+        <dl>
+            <dt>{{ _('Has Review Permission?') }}</dt>
+            <dd>{{ _('Yes') if h.user_is_reviewer(user.id) else _('No') }}</dd>
+        </dl>
+    </div>
+{% endblock %}
