@@ -1,3 +1,5 @@
-<span class="dataset-private badge pull-right {{ review_status_class.get(review_status) }}">
+<span class="dataset-private badge pull-right {{ review_status_class.get(review_status) }}"
+      data-module="review-status-tooltip"
+      data-module-review_status="{{ review_status }}">
   {{ _(review_status) }}
 </span>

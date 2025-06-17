@@ -7,6 +7,7 @@
         "rejected": "alert-danger"
     } %}
     {% set review_status = h.dataset_review_status(pkg.id) %}
+    {% set current_user_is_reviewer = h.user_is_reviewer(g.user) %}
     {% snippet 'snippets/review_status_badge.html', review_status=review_status, review_status_class=review_status_class %}
 
     {{ super() }}
@@ -16,14 +17,20 @@
           {% if current_user_is_reviewer %} 
               <div>
                 <a class="btn btn-success"
-                  ><i class="fa-solid fa-circle-plus"></i> Approve</a
+                   data-module="confirm-action"
+                   data-module-content="{{ _('Are you sure you want to approve this dataset?') }}"
                 >
+                    <i class="fa-solid fa-circle-plus"></i> Approve
+                </a>
                 <a class="btn btn-danger"
-                  ><i class="fa-solid fa-circle-minus"></i> Reject</a
+                   data-module="confirm-action"
+                   data-module-content="{{ _('Are you sure you want to reject this dataset?') }}"
                 >
+                    <i class="fa-solid fa-circle-minus"></i> Reject
+                </a>
               </div>
-          {% endif %} 
-      {% endif %}
+          {% endif %}
+        {% endif %}
 
       {% if review_status == 'approved' %} 
           This dataset has been reviewed and approved!

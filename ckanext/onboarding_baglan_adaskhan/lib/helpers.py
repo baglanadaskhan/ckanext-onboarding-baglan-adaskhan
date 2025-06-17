@@ -14,7 +14,7 @@ def user_is_reviewer(user_id):
 
 def dataset_review_status(dataset_id):
     # Can be "pending", "approved" or "rejected"
-    return "approved"
+    return "pending"
 
 
 def get_helpers():

@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+
+{%- block styles %}
+    {{ super() }}
+    {% asset 'onboarding_baglan_adaskhan/onboarding-css' %}
+{% endblock %}
+
+
+{% block scripts %}
+    {% asset 'onboarding_baglan_adaskhan/onboarding-js' %}
+    {{ super() }}
+{% endblock %}

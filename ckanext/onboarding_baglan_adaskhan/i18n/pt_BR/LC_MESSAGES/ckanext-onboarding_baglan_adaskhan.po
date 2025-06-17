@@ -1,0 +1,125 @@
+# Portuguese (Brazil) translations for ckanext-onboarding-baglan-adaskhan.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the
+# ckanext-onboarding-baglan-adaskhan project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-onboarding-baglan-adaskhan 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-06-17 20:20+0000\n"
+"PO-Revision-Date: 2025-06-17 20:20+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt_BR\n"
+"Language-Team: pt_BR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ckanext/onboarding_baglan_adaskhan/assets/review-status-tooltip.js:13
+msgid "This dataset has to be approved by reviewer"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/assets/review-status-tooltip.js:17
+msgid "This dataset has been approved by a reviewer"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/assets/review-status-tooltip.js:21
+msgid "This dataset has been rejected by a reviewer"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/logic/validators.py:6
+msgid "Required"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/header.html:6
+msgid "My New Route"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/base.html:4
+msgid "Sysadmins"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/base.html:5
+msgid "Reviewers"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/base.html:6
+msgid "Config"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/base.html:7
+msgid "Trash"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:4
+msgid "Current Reviewers"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:9
+msgid "User"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:26
+msgid "Revoke Reviewer permission"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:40
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:60
+msgid "Promote user to Reviewer"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:61
+msgid "Promote"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:73
+msgid "Administer CKAN"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/admin/reviewers.html:76
+msgid "<p>A reviewer is a user that can review datasets.</p>"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/package/read.html:21
+msgid "Are you sure you want to approve this dataset?"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/package/read.html:27
+msgid "Are you sure you want to reject this dataset?"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/user/snippets/info.html:7
+msgid "Has Review Permission?"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/user/snippets/info.html:8
+msgid "Yes"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/user/snippets/info.html:8
+msgid "No"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/views/user.py:26
+msgid "Not authorized to promote user to reviewer"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/views/user.py:29
+msgid "User not found"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/views/user.py:37
+msgid "Promoted {} to reviewer"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/views/user.py:42
+msgid "Revoked reviewer permission from {}"
+msgstr ""
+
+#: ckanext/onboarding_baglan_adaskhan/templates/user/snippets/info.html:7
+msgid "Has Review Permission?"
+msgstr "Tem Permissão para Revisar?"
