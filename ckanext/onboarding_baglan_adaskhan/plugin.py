@@ -2,6 +2,8 @@ import logging
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckanext.onboarding_baglan_adaskhan.views.home import home
+from ckanext.onboarding_baglan_adaskhan.views.admin import admin
+from ckanext.onboarding_baglan_adaskhan.views.user import user
 
 log = logging.getLogger(__name__)
 
@@ -46,7 +48,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin):
     # IBlueprint
 
     def get_blueprint(self):
-        return [home]
+        return [home, admin, user]
 
     # IClick
 

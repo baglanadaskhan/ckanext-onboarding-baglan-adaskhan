@@ -12,7 +12,7 @@ def about():
     return base.render(u'home/about.html', extra_vars={})
 
 def my_new_route():
-    return base.render(u'home/about.html', extra_vars={})
+    return base.render(u'my_custom_template.html', extra_vars={})
 
 home.add_url_rule("/about", view_func=about)
 home.add_url_rule("/my-new-route", view_func=my_new_route)
