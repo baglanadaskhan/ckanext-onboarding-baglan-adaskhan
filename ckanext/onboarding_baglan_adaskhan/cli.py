@@ -1,20 +1,24 @@
+import ckan.model as model
 import click
+from sqlalchemy import Boolean, or_
 
 
-@click.group(short_help="onboarding_baglan_adaskhan CLI.")
-def onboarding_baglan_adaskhan():
-    """onboarding_baglan_adaskhan CLI.
-    """
+@click.group(short_help="Dataset review management commands.")
+def reviewers():
     pass
 
 
-@onboarding_baglan_adaskhan.command()
-@click.argument("name", default="onboarding_baglan_adaskhan")
-def command(name):
-    """Docs.
-    """
-    click.echo("Hello, {name}!".format(name=name))
+@reviewers.command()
+def list():
+    q = model.Session.query(model.User).filter(
+        or_(
+            model.User.plugin_extras.op("->>")("review_permission").cast(Boolean)
+            == True,
+            model.User.sysadmin,
+        ),
+        model.User.state == "active",
+    )
 
-
-def get_commands():
-    return [onboarding_baglan_adaskhan]
+    reviewers = q.all()
+    for reviewer in reviewers:
+        click.secho(reviewer.name)

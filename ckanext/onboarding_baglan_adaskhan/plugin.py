@@ -9,7 +9,7 @@ from ckanext.onboarding_baglan_adaskhan.views.dataset import dataset
 from ckanext.onboarding_baglan_adaskhan.lib.helpers import get_helpers
 from ckanext.onboarding_baglan_adaskhan.authz import user_has_review_permission
 from ckanext.onboarding_baglan_adaskhan.model.dataset_review import DatasetReview
-
+from ckanext.onboarding_baglan_adaskhan.cli import list, reviewers
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class OnboardingBaglanAdaskhanPlugin(
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IDatasetForm, inherit=False)
-    # plugins.implements(plugins.IClick)
+    plugins.implements(plugins.IClick)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.IPackageController, inherit=True)
@@ -97,8 +97,8 @@ class OnboardingBaglanAdaskhanPlugin(
 
     # IClick
 
-    # def get_commands(self):
-    #     return cli.get_commands()
+    def get_commands(self):
+        return [list, reviewers]
 
     # ITemplateHelpers
 
