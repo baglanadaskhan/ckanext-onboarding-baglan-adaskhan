@@ -1,7 +1,9 @@
 import ckan.logic as logic
 from ckan.plugins import toolkit as tk
 
-from .schema import dataset_review_schema
+from ckanext.onboarding_baglan_adaskhan.model.dataset_review import DatasetReview
+import logging
+log = logging.getLogger(__name__)
 
 
 @tk.side_effect_free
@@ -24,20 +26,6 @@ def _default_to_pending(context, data_dict):
         data_dict["private"] = True
 
 
-@tk.chained_action
-def package_create(up_func, context, data_dict):
-    _default_to_pending(context, data_dict)
-    result = up_func(context, data_dict)
-    return result
-
-
-@tk.chained_action
-def package_update(up_func, context, data_dict):
-    _default_to_pending(context, data_dict)
-    result = up_func(context, data_dict)
-    return result
-
-
 def dataset_review(context, data_dict):
     logic.check_access("dataset_review", context, data_dict)
 
@@ -52,4 +40,45 @@ def dataset_review(context, data_dict):
 
     result = package_patch_action(context, data_dict)
 
+    return result
+
+
+def _track_dataset_review(context, data_dict):
+    model = context["model"]
+    user_obj = context.get('auth_user_obj')
+    review_status = data_dict.get("review_status")
+
+    log.debug(">>> TRACKING dataset review:")
+    log.debug(f"package_id = {data_dict.get('id')}")
+    log.debug(f"review_status = {review_status}")
+    log.debug(f"user = {user_obj}")
+
+    if not user_obj:
+        log.error("auth_user_obj is missing in context!")
+        return
+
+    dataset_review_obj = DatasetReview(
+        package_id=data_dict.get("id"),
+        review_status=review_status,
+        user_id=user_obj.id
+    )
+
+    model.Session.add(dataset_review_obj)
+    model.repo.commit()
+    log.debug(">>> dataset_review successfully committed.")
+
+
+@tk.chained_action
+def package_create(up_func, context, data_dict):
+    _default_to_pending(context, data_dict)
+    result = up_func(context, data_dict)
+    _track_dataset_review(context, result)
+    return result
+
+
+@tk.chained_action
+def package_update(up_func, context, data_dict):
+    _default_to_pending(context, data_dict)
+    result = up_func(context, data_dict)
+    _track_dataset_review(context, result)
     return result

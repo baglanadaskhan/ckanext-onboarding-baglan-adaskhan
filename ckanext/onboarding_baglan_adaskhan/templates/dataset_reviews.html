@@ -1,0 +1,27 @@
+{% extends "page.html" %}
+{% block primary_content %}
+   <table class="table">
+      <tr>
+        <th>Dataset</th>
+        <th>Status</th>
+        <th>Updated By</th>
+        <th>Date</th>
+      </tr>
+      {% for dataset_review in dataset_reviews %}
+        <tr>
+            <td>
+                <a href="{{ h.url_for('user.read', id=dataset_review.user_id) }}">
+                    {{ dataset_review.username }}
+                </a>
+            </td>
+            <td>{{ dataset_review.review_status }}</td>
+            <td>
+                <a href="{{ h.url_for('dataset.read', id=dataset_review.package_id) }}">
+                    {{ dataset_review.dataset_title }}
+                </a>
+            </td>
+            <td>{{ dataset_review.timestamp }}</td>
+        </tr>
+      {% endfor %}
+    </table> 
+{% endblock %}

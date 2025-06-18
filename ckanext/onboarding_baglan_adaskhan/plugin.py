@@ -8,6 +8,8 @@ from ckanext.onboarding_baglan_adaskhan.views.user import user
 from ckanext.onboarding_baglan_adaskhan.views.dataset import dataset
 from ckanext.onboarding_baglan_adaskhan.lib.helpers import get_helpers
 from ckanext.onboarding_baglan_adaskhan.authz import user_has_review_permission
+from ckanext.onboarding_baglan_adaskhan.model.dataset_review import DatasetReview
+
 
 log = logging.getLogger(__name__)
 
@@ -38,6 +40,14 @@ class OnboardingBaglanAdaskhanPlugin(
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IPermissionLabels)
+    plugins.implements(plugins.IConfigurable)
+
+    # IConfigurable
+
+    def configure(self, config_):
+        from ckan.model import meta
+        if not DatasetReview.__table__.exists(meta.engine):
+            DatasetReview.__table__.create(meta.engine)
 
     # IFacets
 
@@ -76,6 +86,8 @@ class OnboardingBaglanAdaskhanPlugin(
             "hello_world": action.hello_world,
             "package_search": action.package_search,
             "dataset_review": action.dataset_review,
+            "package_create": action.package_create,
+            "package_update": action.package_update,
         }
 
     # IBlueprint
