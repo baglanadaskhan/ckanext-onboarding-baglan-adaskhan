@@ -14,14 +14,14 @@ log = logging.getLogger(__name__)
 # import ckanext.onboarding_baglan_adaskhan.views as views
 from ckan.lib.plugins import DefaultTranslation
 from ckanext.onboarding_baglan_adaskhan.logic import (
-    action
+    action, auth
 )
 
 
 class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.DefaultDatasetForm):
     plugins.implements(plugins.IConfigurer)
     
-    # plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IDatasetForm, inherit=False)
@@ -41,8 +41,11 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
     
     # IAuthFunctions
 
-    # def get_auth_functions(self):
-    #     return auth.get_auth_functions()
+    def get_auth_functions(self):
+        return {
+            "dataset_review": auth.dataset_review,
+            "package_update": auth.package_update
+        }
 
     # IActions
 
