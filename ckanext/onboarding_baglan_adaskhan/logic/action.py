@@ -2,6 +2,7 @@ import ckan.logic as logic
 from ckan.plugins import toolkit as tk
 
 from ckanext.onboarding_baglan_adaskhan.model.dataset_review import DatasetReview
+from ckanext.onboarding_baglan_adaskhan.mailer import dataset_review_mail
 import logging
 log = logging.getLogger(__name__)
 
@@ -17,6 +18,7 @@ def package_search(up_func, context, data_dict):
     result = up_func(context, data_dict)
     result["did_the_override_work"] = "Yes"
     return result
+
 
 
 def _default_to_pending(context, data_dict):
@@ -40,7 +42,12 @@ def dataset_review(context, data_dict):
 
     result = package_patch_action(context, data_dict)
 
+    dataset_id = data_dict.get("id")
+    username = context.get("user")
+    dataset_review_mail(username, review_status, dataset_id)
     return result
+
+
 
 
 def _track_dataset_review(context, data_dict):
