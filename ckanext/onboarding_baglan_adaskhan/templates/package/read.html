@@ -12,27 +12,38 @@
 
     {{ super() }}
     <div class="p-2 {{ review_status_class.get(review_status) }}">
-      {% if review_status == 'pending' %} 
+            {% if review_status == 'pending' %}
           This dataset is waiting for a review.
-          {% if current_user_is_reviewer %} 
-              <div>
-                <a class="btn btn-success"
-                   data-module="confirm-action"
-                   data-module-content="{{ _('Are you sure you want to approve this dataset?') }}"
-                >
-                    <i class="fa-solid fa-circle-plus"></i> Approve
-                </a>
-                <a class="btn btn-danger"
-                   data-module="confirm-action"
-                   data-module-content="{{ _('Are you sure you want to reject this dataset?') }}"
-                >
-                    <i class="fa-solid fa-circle-minus"></i> Reject
-                </a>
-              </div>
+          {% if current_user_is_reviewer %}
+                <div>
+                  <form method="POST" action="{{ url_for('onboarding_dataset.review')  }}" class="d-inline-block">
+                      <input type="hidden" name="id" value="{{ pkg.id }}" />
+                      <input type="hidden" name="review_status" value="approved" />
+                      <button class="btn btn-success"
+                              data-module="confirm-action"
+                              data-module-content="{{ _('Are you sure you want to approve this dataset?') }}"
+                              data-module-with-data=true
+                              type="submit"
+                        >
+                            <i class="fa-solid fa-circle-plus"></i> Approve
+                       </button>
+                  </form>
+                  <form method="POST" action="{{ url_for('onboarding_dataset.review')  }}" class="d-inline-block">
+                       <input type="hidden" name="id" value="{{ pkg.id }}" />
+                       <input type="hidden" name="review_status" value="rejected" />
+                       <button class="btn btn-danger"
+                               data-module="confirm-action"
+                               data-module-content="{{ _('Are you sure you want to reject this dataset?') }}"
+                               data-module-with-data=true
+                               type="submit"
+                       >
+                           <i class="fa-solid fa-circle-minus"></i> Reject
+                      </button>
+                  </form>
+                </div>
           {% endif %}
-        {% endif %}
-
-      {% if review_status == 'approved' %} 
+      {% endif %}
+        {% if review_status == 'approved' %}
           This dataset has been reviewed and approved!
       {% endif %}
 

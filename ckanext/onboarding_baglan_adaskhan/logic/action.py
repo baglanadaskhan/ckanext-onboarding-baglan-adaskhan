@@ -1,25 +1,51 @@
-import ckan.plugins.toolkit as tk
-import ckanext.onboarding_baglan_adaskhan.logic.schema as schema
+from ckan.plugins import toolkit as tk
 
 
 @tk.side_effect_free
-def onboarding_baglan_adaskhan_get_sum(context, data_dict):
-    tk.check_access(
-        "onboarding_baglan_adaskhan_get_sum", context, data_dict)
-    data, errors = tk.navl_validate(
-        data_dict, schema.onboarding_baglan_adaskhan_get_sum(), context)
-
-    if errors:
-        raise tk.ValidationError(errors)
-
-    return {
-        "left": data["left"],
-        "right": data["right"],
-        "sum": data["left"] + data["right"]
-    }
+def hello_world(context, data_dict):
+    return {"message": "Hello World"}
 
 
-def get_actions():
-    return {
-        'onboarding_baglan_adaskhan_get_sum': onboarding_baglan_adaskhan_get_sum,
-    }
+@tk.chained_action
+@tk.side_effect_free
+def package_search(up_func, context, data_dict):
+    result = up_func(context, data_dict)
+    result["did_the_override_work"] = "Yes"
+    return result
+
+
+def _default_to_pending(context, data_dict):
+    skip_default = context.get("skip_default", False)
+    if not skip_default:
+        data_dict["review_status"] = "pending"
+        data_dict["private"] = True
+
+
+@tk.chained_action
+def package_create(up_func, context, data_dict):
+    _default_to_pending(context, data_dict)
+    result = up_func(context, data_dict)
+    return result
+
+
+@tk.chained_action
+def package_update(up_func, context, data_dict):
+    _default_to_pending(context, data_dict)
+    result = up_func(context, data_dict)
+    return result
+
+
+@tk.side_effect_free
+def dataset_review(context, data_dict):
+    review_status = data_dict.get("review_status")
+    data_dict["review_status"] = review_status
+
+    if review_status == "approved":
+        data_dict["private"] = False
+
+    package_patch_action = tk.get_action("package_patch")
+    context["skip_default"] = True
+
+    result = package_patch_action(context, data_dict)
+
+    return result

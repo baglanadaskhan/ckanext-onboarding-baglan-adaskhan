@@ -1,5 +1,6 @@
 import ckan.model as model
 from sqlalchemy import Boolean, or_
+from ckan.plugins import toolkit
 
 
 def user_is_reviewer(user_id):
@@ -13,8 +14,13 @@ def user_is_reviewer(user_id):
 
 
 def dataset_review_status(dataset_id):
-    # Can be "pending", "approved" or "rejected"
-    return "pending"
+    try:
+        context = {"ignore_auth": True}
+        data_dict = {"id": dataset_id}
+        dataset = toolkit.get_action("package_show")(context, data_dict)
+        return dataset.get("review_status", "pending")
+    except toolkit.ObjectNotFound:
+        return None
 
 
 def get_helpers():

@@ -2,13 +2,13 @@
 
 {% block heading_title %}
     {{ super() }}
+    {% set review_status = package.review_status %}
 
     {% set review_status_class = {
         "pending": "alert-warning",
         "approved": "alert-success",
         "rejected": "alert-danger"
     } %}
-    {% set review_status = h.dataset_review_status(package.id) %}
     {% snippet 'snippets/review_status_badge.html', review_status=review_status, review_status_class=review_status_class %}
 
 {% endblock %}
