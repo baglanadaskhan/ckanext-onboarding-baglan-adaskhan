@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 # import ckanext.onboarding_baglan_adaskhan.views as views
 from ckan.lib.plugins import DefaultTranslation
 from ckanext.onboarding_baglan_adaskhan.logic import (
-    action, auth
+    action, auth, validators
 )
 
 
@@ -27,7 +27,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
     plugins.implements(plugins.IDatasetForm, inherit=False)
     # plugins.implements(plugins.IClick)
     plugins.implements(plugins.ITemplateHelpers)
-    # plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.IValidators)
     
 
     # IConfigurer
@@ -73,9 +73,11 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
 
     # IValidators
 
-    # def get_validators(self):
-    #     return validators.get_validators()
-    
+    def get_validators(self):
+        return {
+            "review_status_validator": validators.review_status_validator,
+            "review_status_flow_validator": validators.review_status_flow_validator
+        }
 
     # IDatasetForm
 
@@ -89,7 +91,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
         schema.update(
             {
                 "review_status": [
-                    toolkit.get_validator("ignore_missing"),
+                    toolkit.get_validator("review_status_validator"),
                     toolkit.get_converter("convert_to_extras"),
                 ]
             }

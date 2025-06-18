@@ -1,6 +1,8 @@
 import ckan.logic as logic
 from ckan.plugins import toolkit as tk
 
+from .schema import dataset_review_schema
+
 
 @tk.side_effect_free
 def hello_world(context, data_dict):
@@ -36,7 +38,7 @@ def package_update(up_func, context, data_dict):
     return result
 
 
-@tk.side_effect_free
+@logic.validate(dataset_review_schema)
 def dataset_review(context, data_dict):
     logic.check_access("dataset_review", context, data_dict)
 

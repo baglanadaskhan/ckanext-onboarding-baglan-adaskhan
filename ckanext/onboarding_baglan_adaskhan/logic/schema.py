@@ -1,11 +1,10 @@
-import ckan.plugins.toolkit as tk
+import ckan.logic.schema as schema
 
 
-def onboarding_baglan_adaskhan_get_sum():
-    not_empty = tk.get_validator("not_empty")
-    convert_int = tk.get_validator("convert_int")
-
-    return {
-        "left": [not_empty, convert_int],
-        "right": [not_empty, convert_int]
+@schema.validator_args
+def dataset_review_schema(not_empty, review_status_flow_validator):
+    schema = {
+        "id": [not_empty],
+        "review_status": [not_empty, review_status_flow_validator],
     }
+    return schema
