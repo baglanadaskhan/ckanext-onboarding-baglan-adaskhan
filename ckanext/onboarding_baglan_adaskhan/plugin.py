@@ -1,24 +1,31 @@
 import logging
 import ckan.plugins as plugins
+from ckan.common import current_user
 import ckan.plugins.toolkit as toolkit
 from ckanext.onboarding_baglan_adaskhan.views.home import home
 from ckanext.onboarding_baglan_adaskhan.views.admin import admin
 from ckanext.onboarding_baglan_adaskhan.views.user import user
 from ckanext.onboarding_baglan_adaskhan.views.dataset import dataset
 from ckanext.onboarding_baglan_adaskhan.lib.helpers import get_helpers
+from ckanext.onboarding_baglan_adaskhan.authz import user_has_review_permission
 
 log = logging.getLogger(__name__)
 
 # import ckanext.onboarding_baglan_adaskhan.cli as cli
 # import ckanext.onboarding_baglan_adaskhan.helpers as helpers
 # import ckanext.onboarding_baglan_adaskhan.views as views
-from ckan.lib.plugins import DefaultTranslation
+from ckan.lib.plugins import DefaultTranslation, DefaultPermissionLabels
 from ckanext.onboarding_baglan_adaskhan.logic import (
     action, auth, validators
 )
 
 
-class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.DefaultDatasetForm):
+class OnboardingBaglanAdaskhanPlugin(
+    plugins.SingletonPlugin,
+    DefaultTranslation,
+    toolkit.DefaultDatasetForm,
+    DefaultPermissionLabels
+):
     plugins.implements(plugins.IConfigurer)
     
     plugins.implements(plugins.IAuthFunctions)
@@ -28,7 +35,22 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
     # plugins.implements(plugins.IClick)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IValidators)
-    
+    plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IFacets, inherit=True)
+    plugins.implements(plugins.IPermissionLabels)
+
+    # IFacets
+
+    def dataset_facets(self, data_dict, package_type):
+        data_dict["last_update_user"] = "Last Updated By"
+        return data_dict
+
+    # IPackageController
+
+    def before_dataset_index(self, data_dict):
+        if current_user:
+            data_dict["last_update_user"] = current_user.name
+        return data_dict
 
     # IConfigurer
 
@@ -91,7 +113,7 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
         schema.update(
             {
                 "review_status": [
-                    toolkit.get_validator("review_status_validator"),
+                    toolkit.get_validator("ignore_missing"),
                     toolkit.get_converter("convert_to_extras"),
                 ]
             }
@@ -135,3 +157,22 @@ class OnboardingBaglanAdaskhanPlugin(plugins.SingletonPlugin, DefaultTranslation
 
     def package_form(self):
         return super(OnboardingBaglanAdaskhanPlugin, self).package_form()
+
+    # IPermissionLabels
+
+    def get_dataset_labels(self, dataset_obj):
+        labels = super(OnboardingBaglanAdaskhanPlugin, self).get_dataset_labels(dataset_obj)
+
+        labels.extend(["reviewer"])
+
+        return labels
+
+    def get_user_dataset_labels(self, user_obj):
+        labels = super(OnboardingBaglanAdaskhanPlugin, self).get_user_dataset_labels(
+            user_obj
+        )
+
+        if user_obj and user_has_review_permission(user_obj.id):
+            labels.extend(["reviewer"])
+
+        return labels

@@ -38,7 +38,6 @@ def package_update(up_func, context, data_dict):
     return result
 
 
-@logic.validate(dataset_review_schema)
 def dataset_review(context, data_dict):
     logic.check_access("dataset_review", context, data_dict)
 
