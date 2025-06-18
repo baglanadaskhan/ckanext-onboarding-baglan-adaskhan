@@ -1,3 +1,4 @@
+import ckan.logic as logic
 from ckan.plugins import toolkit as tk
 
 
@@ -37,6 +38,8 @@ def package_update(up_func, context, data_dict):
 
 @tk.side_effect_free
 def dataset_review(context, data_dict):
+    logic.check_access("dataset_review", context, data_dict)
+
     review_status = data_dict.get("review_status")
     data_dict["review_status"] = review_status
 

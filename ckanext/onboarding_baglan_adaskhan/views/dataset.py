@@ -41,3 +41,4 @@ def review():
 
 
 dataset.add_url_rule(rule="/review", view_func=review, methods=["POST"])
+dataset.add_url_rule(rule="/review", view_func=review, methods=["POST"])
