@@ -2,6 +2,8 @@ import ckan.logic as logic
 from ckan.plugins import toolkit as tk
 
 from ckanext.onboarding_baglan_adaskhan.model.dataset_review import DatasetReview
+from ckanext.onboarding_baglan_adaskhan.lib.queries import get_last_reject_reviewer
+from ckanext.onboarding_baglan_adaskhan.mailer import notify_reviewer_pending
 from ckanext.onboarding_baglan_adaskhan.mailer import dataset_review_mail
 import logging
 log = logging.getLogger(__name__)
@@ -85,7 +87,34 @@ def package_create(up_func, context, data_dict):
 
 @tk.chained_action
 def package_update(up_func, context, data_dict):
-    _default_to_pending(context, data_dict)
+    old_pkg = logic.get_action("package_show")(context, {"id": data_dict["id"]})
+
+    old_private = old_pkg.get("private", True)
+    new_private = data_dict.get("private", old_private)
+
+    context["skip_default"] = True
+
+    if old_private and not new_private:
+        data_dict["review_status"] = "pending"
+        data_dict["private"] = True
+
     result = up_func(context, data_dict)
-    _track_dataset_review(context, result)
+
+    dataset = tk.get_action("package_show")(context, data_dict)
+    status = dataset.get("review_status", "pending")
+
+    log.debug(f"Sending notify email to {old_pkg.get('review_status')} for dataset {status}")
+
+    if old_pkg.get("review_status") == "rejected" and status == "pending":
+        last_reviewer = get_last_reject_reviewer(data_dict["id"])
+        log.debug(f"Sending notify email to {last_reviewer.email} for dataset {result['name']}")
+        if last_reviewer and last_reviewer.email:
+            notify_reviewer_pending(
+                reviewer=last_reviewer,
+                dataset=result
+            )
+
+    if data_dict.get("review_status"):
+        _track_dataset_review(context, result)
+
     return result

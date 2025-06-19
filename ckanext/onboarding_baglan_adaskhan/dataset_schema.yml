@@ -73,7 +73,6 @@ dataset_fields:
   label: Review Status
   form_snippet: null
   display_snippet: dataset_review.html
-  validators: review_status_validator
 
 - field_name: notes_for_reviewers
   label: Notes for Reviewers

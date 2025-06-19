@@ -2,7 +2,7 @@ onboarding-js:
  filter: rjsmin
  output: ckanext-onboarding_baglan_adaskhan/%(version)s-onboarding_baglan_adaskhan.js
  contents:
-   - review-status-tooltip.js
+   - pending-review-confirm.js
  extra:
    preload:
      - base/main

@@ -1,0 +1,10 @@
+{% ckan_extends %}
+{% block scripts %}
+  {% asset 'onboarding_baglan_adaskhan/onboarding-js' %}
+  {{ super() }}
+  <script>
+    $(function () {
+      $('#field-private').attr('data-module', 'pending-review-confirm');
+    });
+  </script>
+{% endblock %}

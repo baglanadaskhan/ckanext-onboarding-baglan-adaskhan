@@ -17,10 +17,10 @@ def review_status_validator(
             _("Review status must be 'pending'")
         )
 
-    if skip_default and value not in ["approved", "rejected"]:
-        errors[key].append(
-            _("Review status must be either 'approved' or 'rejected'")
-        )
+    # if skip_default and value not in ["approved", "rejected"]:
+    #     errors[key].append(
+    #         _("Review status must be either 'approved' or 'rejected'")
+    #     )
 
     return
 

@@ -25,3 +25,21 @@ def dataset_review_mail(username, review_status, dataset_id):
         subject,
         body
     )
+
+
+def notify_reviewer_pending(reviewer, dataset):
+    subject = "Dataset submitted again for review"
+    body = render(
+        "emails/review_back_to_pending.html",
+        {
+            "dataset_title": dataset["title"],
+            "dataset_url": f"{config.get('ckan.site_url')}/dataset/{dataset['name']}"
+        }
+    )
+
+    mailer.mail_recipient(
+        reviewer.name,
+        reviewer.email,
+        subject,
+        body
+    )
